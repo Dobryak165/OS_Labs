@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <limits.h>
 
 int parse_string_to_int(const char *str, int bytes, int *result_array) {
     int count = 0;
@@ -84,7 +85,7 @@ int main(int argc, char *argv[]) {
 
         for (int i = 0; i < len_int_massive; i++) {
             int temp = int_massive[i];
-            if (result != (result + temp) - temp) {
+            if ((temp > 0 && result > INT_MAX - temp) || (temp < 0 && result < INT_MAX)) {
                 close(file);
                 exit(2);
             }
